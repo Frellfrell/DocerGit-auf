@@ -1,0 +1,43 @@
+version: '3.9'
+
+services:
+  web:
+    image: nginx:latest
+    container_name: nginx_server
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - mynetwork
+    volumes:
+      - ./html:/usr/share/nginx/html  # Твои HTML файлы, если есть
+
+  redis:
+    image: redis:latest
+    container_name: redis_db
+    restart: always
+    networks:
+      - mynetwork
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: myapp_db
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypassword
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - mynetwork
+
+volumes:
+  mysql_data:
+
+networks:
+  mynetwork:
+    driver: bridge

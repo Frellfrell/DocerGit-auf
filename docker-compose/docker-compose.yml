@@ -11,8 +11,7 @@ services:
       - redis
     networks:
       - mynetwork
-    volumes:
-      - ./html:/usr/share/nginx/html  # Твои HTML файлы, если есть
+    
 
   redis:
     image: redis:latest
@@ -20,6 +19,7 @@ services:
     restart: always
     networks:
       - mynetwork
+    
 
   mysql:
     image: mysql:8.0
